@@ -172,10 +172,6 @@ export default function Menu() {
               <motion.div
                 key={idx}
                 style={{ opacity: itemOpacity, y: itemY }}
-                whileHover={{
-                  y: -6,
-                  transition: { duration: 0.3, ease },
-                }}
                 className="group card-bordered rounded-2xl overflow-hidden cursor-pointer"
               >
                 {/* Image */}

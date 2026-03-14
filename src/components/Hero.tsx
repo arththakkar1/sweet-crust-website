@@ -35,7 +35,7 @@ export default function Hero() {
         {/* Text side */}
         <motion.div 
           className="flex flex-col gap-6 lg:gap-8"
-          style={{ y: textY, opacity: textOpacity }}
+
         >
           {/* Badges */}
           <motion.div

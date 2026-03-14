@@ -128,10 +128,6 @@ export default function Testimonials() {
               <motion.div
                 key={idx}
                 style={{ opacity: itemOpacity, y: itemY }}
-                whileHover={{
-                  y: -4,
-                  transition: { duration: 0.25, ease },
-                }}
                 className="card-bordered rounded-2xl p-8 flex flex-col gap-4"
               >
                 {/* Stars */}
