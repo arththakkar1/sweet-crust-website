@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { motion, Variants } from "motion/react";
+import { motion, useScroll, useTransform } from "motion/react";
+import { useRef } from "react";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -36,38 +37,33 @@ const testimonials = [
 ];
 
 export default function Testimonials() {
-  const containerVariants: Variants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.12, delayChildren: 0.1 },
-    },
-  };
+  const containerRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
 
-  const cardVariants: Variants = {
-    hidden: { opacity: 0, y: 40 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6, ease },
-    },
-  };
+  const headerOpacity = useTransform(scrollYProgress, [0, 0.15], [0, 1]);
+  const headerY = useTransform(scrollYProgress, [0, 0.15], [30, 0]);
+
+  const featuredOpacity = useTransform(scrollYProgress, [0.1, 0.3], [0, 1]);
+  const featuredY = useTransform(scrollYProgress, [0.1, 0.3], [40, 0]);
 
   const featured = testimonials[0];
   const rest = testimonials.slice(1);
 
   return (
-    <motion.section
+    <section
       id="testimonials"
+      ref={containerRef}
       className="py-24 md:py-32 px-6 md:px-12 lg:px-16"
-      variants={containerVariants}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.15 }}
     >
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <motion.div className="text-center mb-16" variants={cardVariants}>
+        <motion.div 
+          className="text-center mb-16" 
+          style={{ opacity: headerOpacity, y: headerY }}
+        >
           <p className="text-[var(--accent)] tracking-[0.25em] uppercase text-xs font-medium mb-4">
             Testimonials
           </p>
@@ -78,7 +74,7 @@ export default function Testimonials() {
 
         {/* Featured testimonial — large centered */}
         <motion.div
-          variants={cardVariants}
+          style={{ opacity: featuredOpacity, y: featuredY }}
           className="card-elevated rounded-3xl p-10 md:p-14 text-center mb-8 relative max-w-4xl mx-auto"
         >
           {/* Large quote marks */}
@@ -122,50 +118,57 @@ export default function Testimonials() {
 
         {/* Remaining testimonials — 2 column */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-          {rest.map((t, idx) => (
-            <motion.div
-              key={idx}
-              variants={cardVariants}
-              whileHover={{
-                y: -4,
-                transition: { duration: 0.25, ease },
-              }}
-              className="card-bordered rounded-2xl p-8 flex flex-col gap-4"
-            >
-              {/* Stars */}
-              <div className="flex gap-1">
-                {Array.from({ length: t.stars }).map((_, i) => (
-                  <span key={i} className="text-[var(--accent)] text-sm">
-                    ★
-                  </span>
-                ))}
-              </div>
+          {rest.map((t, idx) => {
+            // eslint-disable-next-line react-hooks/rules-of-hooks
+            const itemOpacity = useTransform(scrollYProgress, [0.2 + (idx * 0.1), 0.4 + (idx * 0.1)], [0, 1]);
+            // eslint-disable-next-line react-hooks/rules-of-hooks
+            const itemY = useTransform(scrollYProgress, [0.2 + (idx * 0.1), 0.4 + (idx * 0.1)], [40, 0]);
 
-              {/* Quote */}
-              <p className="text-[var(--text-secondary)] text-sm leading-relaxed flex-1">
-                &ldquo;{t.quote}&rdquo;
-              </p>
-
-              {/* Author */}
-              <div className="flex items-center gap-3 pt-3 border-t border-[var(--border)]">
-                <Image
-                  src={t.image}
-                  alt={t.name}
-                  width={44}
-                  height={44}
-                  className="w-11 h-11 rounded-full object-cover ring-2 ring-[var(--accent)]/20"
-                />
-                <div>
-                  <p className="text-sm font-semibold">{t.name}</p>
-                  <p className="text-xs text-[var(--text-secondary)]">
-                    {t.role}
-                  </p>
+            return (
+              <motion.div
+                key={idx}
+                style={{ opacity: itemOpacity, y: itemY }}
+                whileHover={{
+                  y: -4,
+                  transition: { duration: 0.25, ease },
+                }}
+                className="card-bordered rounded-2xl p-8 flex flex-col gap-4"
+              >
+                {/* Stars */}
+                <div className="flex gap-1">
+                  {Array.from({ length: t.stars }).map((_, i) => (
+                    <span key={i} className="text-[var(--accent)] text-sm">
+                      ★
+                    </span>
+                  ))}
                 </div>
-              </div>
-            </motion.div>
-          ))}
+
+                {/* Quote */}
+                <p className="text-[var(--text-secondary)] text-sm leading-relaxed flex-1">
+                  &ldquo;{t.quote}&rdquo;
+                </p>
+
+                {/* Author */}
+                <div className="flex items-center gap-3 pt-3 border-t border-[var(--border)]">
+                  <Image
+                    src={t.image}
+                    alt={t.name}
+                    width={44}
+                    height={44}
+                    className="w-11 h-11 rounded-full object-cover ring-2 ring-[var(--accent)]/20"
+                  />
+                  <div>
+                    <p className="text-sm font-semibold">{t.name}</p>
+                    <p className="text-xs text-[var(--text-secondary)]">
+                      {t.role}
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 }

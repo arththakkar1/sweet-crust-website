@@ -1,40 +1,39 @@
 "use client";
 
-import { motion, Variants } from "motion/react";
+import { motion, useScroll, useTransform } from "motion/react";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
+import { useRef } from "react";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
 export default function Contact() {
-  const containerVariants: Variants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.1, delayChildren: 0.1 },
-    },
-  };
+  const containerRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
 
-  const itemVariants: Variants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6, ease },
-    },
-  };
+  const headerOpacity = useTransform(scrollYProgress, [0, 0.2], [0, 1]);
+  const headerY = useTransform(scrollYProgress, [0, 0.2], [30, 0]);
+
+  const leftOpacity = useTransform(scrollYProgress, [0.1, 0.4], [0, 1]);
+  const leftY = useTransform(scrollYProgress, [0.1, 0.4], [40, 0]);
+
+  const rightOpacity = useTransform(scrollYProgress, [0.2, 0.5], [0, 1]);
+  const rightY = useTransform(scrollYProgress, [0.2, 0.5], [40, 0]);
 
   return (
-    <motion.section
+    <section
       id="contact"
+      ref={containerRef}
       className="py-24 md:py-32 px-6 md:px-12 lg:px-16 bg-[var(--bg-elevated)]"
-      variants={containerVariants}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.15 }}
     >
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <motion.div className="text-center mb-16" variants={itemVariants}>
+        <motion.div 
+          className="text-center mb-16" 
+          style={{ opacity: headerOpacity, y: headerY }}
+        >
           <p className="text-[var(--accent)] tracking-[0.25em] uppercase text-xs font-medium mb-4">
             Get in Touch
           </p>
@@ -47,7 +46,7 @@ export default function Contact() {
           {/* Form */}
           <motion.form
             className="card-bordered rounded-2xl p-8 md:p-10 flex flex-col gap-6"
-            variants={itemVariants}
+            style={{ opacity: leftOpacity, y: leftY }}
           >
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div className="flex flex-col gap-2">
@@ -112,7 +111,10 @@ export default function Contact() {
           </motion.form>
 
           {/* Info + Map */}
-          <motion.div className="flex flex-col gap-8" variants={itemVariants}>
+          <motion.div 
+            className="flex flex-col gap-8" 
+            style={{ opacity: rightOpacity, y: rightY }}
+          >
             <div className="card-bordered rounded-2xl p-8 space-y-6">
               {[
                 {
@@ -164,6 +166,6 @@ export default function Contact() {
           </motion.div>
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 }

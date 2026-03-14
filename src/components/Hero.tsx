@@ -1,14 +1,30 @@
 "use client";
 
 import Image from "next/image";
-import { motion } from "motion/react";
+import { motion, useScroll, useTransform } from "motion/react";
+import { useRef } from "react";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
 export default function Hero() {
+  const containerRef = useRef<HTMLElement>(null);
+  
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"],
+  });
+
+  // Parallax values
+  const textY = useTransform(scrollYProgress, [0, 1], [0, 100]);
+  const textOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  
+  const imgY = useTransform(scrollYProgress, [0, 1], [0, 50]);
+  const indicatorOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
+
   return (
     <section
       id="home"
+      ref={containerRef}
       className="relative min-h-screen flex items-center overflow-hidden"
     >
       {/* Background */}
@@ -17,7 +33,10 @@ export default function Hero() {
       {/* Content grid */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 lg:px-16 py-32 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
         {/* Text side */}
-        <div className="flex flex-col gap-6 lg:gap-8">
+        <motion.div 
+          className="flex flex-col gap-6 lg:gap-8"
+          style={{ y: textY, opacity: textOpacity }}
+        >
           {/* Badges */}
           <motion.div
             className="flex flex-wrap gap-3"
@@ -73,7 +92,7 @@ export default function Hero() {
           >
             Explore Our Menu
           </motion.a>
-        </div>
+        </motion.div>
 
         {/* Image side */}
         <motion.div
@@ -81,6 +100,7 @@ export default function Hero() {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, ease, delay: 0.3 }}
+          style={{ y: imgY }}
         >
           <Image
             src="/images/hero_cinematic.png"
@@ -100,6 +120,7 @@ export default function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2, duration: 0.6 }}
+        style={{ opacity: indicatorOpacity }}
       >
         <span className="text-[var(--text-secondary)] text-xs tracking-[0.2em] uppercase">
           Scroll

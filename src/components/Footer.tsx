@@ -101,7 +101,7 @@ export default function Footer() {
             © 2025 Sweet Crust Bakery. All rights reserved.
           </p>
           <p className="text-xs text-[var(--text-secondary)]">
-            Crafted with ❤️ and flour
+            Crafted with Love and Flour
           </p>
         </div>
       </div>

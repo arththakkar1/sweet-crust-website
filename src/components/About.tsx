@@ -1,28 +1,24 @@
 "use client";
 
 import Image from "next/image";
-import { motion, Variants } from "motion/react";
+import { motion, useScroll, useTransform } from "motion/react";
+import { useRef } from "react";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
 export default function About() {
-  const containerVariants: Variants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.12, delayChildren: 0.1 },
-    },
-  };
+  const containerRef = useRef<HTMLElement>(null);
+  
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
 
-  const leftVariants: Variants = {
-    hidden: { opacity: 0, x: -40 },
-    visible: { opacity: 1, x: 0, transition: { duration: 0.7, ease } },
-  };
-
-  const rightVariants: Variants = {
-    hidden: { opacity: 0, x: 40 },
-    visible: { opacity: 1, x: 0, transition: { duration: 0.7, ease } },
-  };
+  // Parallax value for the image
+  const imgY = useTransform(scrollYProgress, [0, 1], [-50, 50]);
+  // Subtle fade for text side
+  const textOpacity = useTransform(scrollYProgress, [0.1, 0.3], [0, 1]);
+  const textY = useTransform(scrollYProgress, [0.1, 0.4], [30, 0]);
 
   const stats = [
     { value: "15+", label: "Recipes" },
@@ -31,17 +27,14 @@ export default function About() {
   ];
 
   return (
-    <motion.section
+    <section
       id="about"
-      className="py-24 md:py-32 px-6 md:px-12 lg:px-16"
-      variants={containerVariants}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.2 }}
+      ref={containerRef}
+      className="py-24 md:py-32 px-6 md:px-12 lg:px-16 overflow-hidden"
     >
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center max-w-7xl mx-auto">
-        {/* Image with offset shadow */}
-        <motion.div className="relative" variants={leftVariants}>
+        {/* Image with offset shadow and parallax */}
+        <motion.div className="relative" style={{ y: imgY }}>
           <div className="absolute -bottom-4 -right-4 w-full h-full rounded-2xl bg-[var(--accent)]/10 -z-10" />
           <div className="relative overflow-hidden rounded-2xl aspect-[4/5] lg:aspect-[3/4] border border-[var(--border)]">
             <Image
@@ -55,7 +48,10 @@ export default function About() {
         </motion.div>
 
         {/* Text */}
-        <motion.div className="flex flex-col gap-6" variants={rightVariants}>
+        <motion.div 
+          className="flex flex-col gap-6" 
+          style={{ opacity: textOpacity, y: textY }}
+        >
           <p className="text-[var(--accent)] tracking-[0.25em] uppercase text-xs font-medium">
             Our Story
           </p>
@@ -113,6 +109,6 @@ export default function About() {
           </motion.a>
         </motion.div>
       </div>
-    </motion.section>
+    </section>
   );
 }

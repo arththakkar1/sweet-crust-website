@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { motion, Variants } from "motion/react";
+import { motion, useScroll, useTransform } from "motion/react";
+import { useRef } from "react";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -97,38 +98,33 @@ const menuItems: MenuItem[] = [
 ];
 
 export default function Menu() {
-  const containerVariants: Variants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.1, delayChildren: 0.15 },
-    },
-  };
+  const containerRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
 
-  const cardVariants: Variants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6, ease },
-    },
-  };
+  const headerOpacity = useTransform(scrollYProgress, [0, 0.1], [0, 1]);
+  const headerY = useTransform(scrollYProgress, [0, 0.1], [30, 0]);
+
+  const featuredOpacity = useTransform(scrollYProgress, [0.05, 0.2], [0, 1]);
+  const featuredY = useTransform(scrollYProgress, [0.05, 0.2], [40, 0]);
 
   const featured = menuItems[0];
   const rest = menuItems.slice(1);
 
   return (
-    <motion.section
+    <section
       id="menu"
+      ref={containerRef}
       className="py-24 md:py-32 px-6 md:px-12 lg:px-16 bg-[var(--bg-elevated)]"
-      variants={containerVariants}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.1 }}
     >
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <motion.div className="text-center mb-16" variants={cardVariants}>
+        <motion.div 
+          className="text-center mb-16" 
+          style={{ opacity: headerOpacity, y: headerY }}
+        >
           <p className="text-[var(--accent)] tracking-[0.25em] uppercase text-xs font-medium mb-4">
             Specialties
           </p>
@@ -139,7 +135,7 @@ export default function Menu() {
 
         {/* Featured item — full width */}
         <motion.div
-          variants={cardVariants}
+          style={{ opacity: featuredOpacity, y: featuredY }}
           className="card-bordered rounded-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-2 mb-6 group cursor-pointer"
         >
           <div className="overflow-hidden aspect-[4/3] lg:aspect-auto">
@@ -166,43 +162,50 @@ export default function Menu() {
 
         {/* Rest — 3 column grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {rest.map((item, idx) => (
-            <motion.div
-              key={idx}
-              variants={cardVariants}
-              whileHover={{
-                y: -6,
-                transition: { duration: 0.3, ease },
-              }}
-              className="group card-bordered rounded-2xl overflow-hidden cursor-pointer"
-            >
-              {/* Image */}
-              <div className="overflow-hidden aspect-[4/3]">
-                <Image
-                  src={item.image}
-                  alt={item.alt}
-                  width={400}
-                  height={300}
-                  className="object-cover w-full h-full transition-transform duration-500 ease-out group-hover:scale-110"
-                />
-              </div>
+          {rest.map((item, idx) => {
+            // eslint-disable-next-line react-hooks/rules-of-hooks
+            const itemOpacity = useTransform(scrollYProgress, [0.1 + (idx * 0.02), 0.25 + (idx * 0.02)], [0, 1]);
+            // eslint-disable-next-line react-hooks/rules-of-hooks
+            const itemY = useTransform(scrollYProgress, [0.1 + (idx * 0.02), 0.25 + (idx * 0.02)], [40, 0]);
 
-              {/* Content */}
-              <div className="p-6">
-                <div className="flex items-center justify-between mb-2">
-                  <h3 className="text-lg font-semibold">{item.title}</h3>
-                  <span className="bg-[var(--accent)]/10 text-[var(--accent)] text-sm font-medium px-3 py-0.5 rounded-full">
-                    {item.price}
-                  </span>
+            return (
+              <motion.div
+                key={idx}
+                style={{ opacity: itemOpacity, y: itemY }}
+                whileHover={{
+                  y: -6,
+                  transition: { duration: 0.3, ease },
+                }}
+                className="group card-bordered rounded-2xl overflow-hidden cursor-pointer"
+              >
+                {/* Image */}
+                <div className="overflow-hidden aspect-[4/3]">
+                  <Image
+                    src={item.image}
+                    alt={item.alt}
+                    width={400}
+                    height={300}
+                    className="object-cover w-full h-full transition-transform duration-500 ease-out group-hover:scale-110"
+                  />
                 </div>
-                <p className="text-[var(--text-secondary)] text-sm leading-relaxed">
-                  {item.description}
-                </p>
-              </div>
-            </motion.div>
-          ))}
+
+                {/* Content */}
+                <div className="p-6">
+                  <div className="flex items-center justify-between mb-2">
+                    <h3 className="text-lg font-semibold">{item.title}</h3>
+                    <span className="bg-[var(--accent)]/10 text-[var(--accent)] text-sm font-medium px-3 py-0.5 rounded-full">
+                      {item.price}
+                    </span>
+                  </div>
+                  <p className="text-[var(--text-secondary)] text-sm leading-relaxed">
+                    {item.description}
+                  </p>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 }
