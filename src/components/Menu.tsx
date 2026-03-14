@@ -23,6 +23,30 @@ const menuItems: MenuItem[] = [
     alt: "Delicate Pastries",
   },
   {
+    title: "Classic Croissant",
+    price: "$4.00",
+    description:
+      "A beautifully golden flaky croissant, hand-rolled and baked to perfection.",
+    image: "/images/menu_croissant.png",
+    alt: "Classic Croissant",
+  },
+  {
+    title: "Pain au Chocolat",
+    price: "$4.50",
+    description:
+      "Golden brown flaky layers packed with two generous batons of rich, dark chocolate.",
+    image: "/images/menu_painauchocolat.png",
+    alt: "Pain au Chocolat",
+  },
+  {
+    title: "French Macarons",
+    price: "$12.00",
+    description:
+      "Elegant, colorful almond meringue cookies with rich ganache fillings in various flavors.",
+    image: "/images/menu_macaron.png",
+    alt: "French Macarons",
+  },
+  {
     title: "Celebration Cakes",
     price: "$45.00",
     description:
@@ -31,12 +55,36 @@ const menuItems: MenuItem[] = [
     alt: "Celebration Cakes",
   },
   {
+    title: "Fresh Fruit Tart",
+    price: "$6.50",
+    description:
+      "Crisp buttery pastry shell filled with silky vanilla cream and crowned with glossy seasonal fruits.",
+    image: "/images/menu_fruittart.png",
+    alt: "Fresh Fruit Tart",
+  },
+  {
     title: "Artisan Breads",
     price: "$8.00",
     description:
       "Baked fresh every morning — golden crust, airy crumb, and wholesome flavor.",
     image: "/images/menu_bread.png",
     alt: "Artisan Breads",
+  },
+  {
+    title: "Cinnamon Roll",
+    price: "$5.50",
+    description:
+      "Freshly baked cinnamon roll topped with a generous drizzle of cream cheese icing.",
+    image: "/images/menu_cinnamonroll.png",
+    alt: "Cinnamon Roll",
+  },
+  {
+    title: "Blueberry Muffin",
+    price: "$4.50",
+    description:
+      "Soft and moist blueberry muffin with a golden crumble topping, baked fresh daily.",
+    image: "/images/menu_muffin.png",
+    alt: "Blueberry Muffin",
   },
   {
     title: "Signature Cookies",
