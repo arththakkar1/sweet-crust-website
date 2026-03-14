@@ -16,10 +16,8 @@ export default function Hero() {
 
   // Parallax values
   const textY = useTransform(scrollYProgress, [0, 1], [0, 100]);
-  const textOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   
   const imgY = useTransform(scrollYProgress, [0, 1], [0, 50]);
-  const indicatorOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
 
   return (
     <section
@@ -120,7 +118,7 @@ export default function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2, duration: 0.6 }}
-        style={{ opacity: indicatorOpacity }}
+
       >
         <span className="text-[var(--text-secondary)] text-xs tracking-[0.2em] uppercase">
           Scroll
