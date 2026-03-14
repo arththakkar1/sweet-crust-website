@@ -1,22 +1,112 @@
 @import "tailwindcss";
 
 :root {
-  --primary-color: #f09942;
-  --secondary-color: #fce8d6;
-  --background-color: #fffaf0;
-  --text-primary: #4a2c2a;
-  --text-secondary: #7a5c5a;
-  --accent-color: #ffe0b2;
-  --cream: #fffaf0;
-  --light-pink: #fce8d6;
-  --beige: #f5e6cc;
-  --soft-brown: #a07855;
+  --bg-primary: #faf8f5;
+  --bg-card: #ffffff;
+  --bg-elevated: #f0ebe3;
+  --accent: #c4704b;
+  --accent-hover: #a85a38;
+  --text-primary: #1a1a1a;
+  --text-secondary: #6b6560;
+  --border: #e8e2d9;
 }
+
+/* ── Lenis smooth scroll ────────────────────────────────── */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+html.lenis.lenis-smooth {
+  scroll-behavior: auto;
+}
+
+/* ── Base ────────────────────────────────────────────────── */
 body {
-  font-family: "Epilogue", sans-serif;
-  background-color: var(--background-color);
+  font-family: var(--font-body, "DM Sans", sans-serif);
+  background-color: var(--bg-primary);
   color: var(--text-primary);
 }
-.font-script {
-  font-family: "Newsreader", serif;
+
+.font-display {
+  font-family: var(--font-display, "Instrument Serif", serif);
+}
+
+/* ── Utilities ───────────────────────────────────────────── */
+.text-gradient-warm {
+  background: linear-gradient(135deg, #c4704b 0%, #e6956e 50%, #c4704b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.card-bordered {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-bordered:hover {
+  border-color: var(--accent);
+  box-shadow: 0 8px 30px rgba(196, 112, 75, 0.08);
+}
+
+.card-elevated {
+  background: var(--bg-elevated);
+  border: 1px solid transparent;
+  transition: box-shadow 0.3s ease;
+}
+
+.card-elevated:hover {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+}
+
+.section-divider {
+  width: 60px;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 1px;
+}
+
+/* ── Focus-visible ──────────────────────────────────────── */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ── Link transitions (touch-safe) ──────────────────────── */
+@media (hover: hover) and (pointer: fine) {
+  a {
+    transition: color 200ms ease, opacity 200ms ease;
+  }
+}
+
+/* ── Reduced motion ─────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── Scrollbar ──────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
 }

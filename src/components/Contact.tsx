@@ -1,210 +1,168 @@
 "use client";
+
 import { motion, Variants } from "motion/react";
+import { MapPin, Phone, Mail, Clock } from "lucide-react";
+
+const ease = [0.22, 1, 0.36, 1] as const;
 
 export default function Contact() {
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.1,
-      },
+      transition: { staggerChildren: 0.1, delayChildren: 0.1 },
     },
   };
 
-  const titleVariants: Variants = {
-    hidden: { opacity: 0, y: -50, scale: 0.8 },
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, y: 30 },
     visible: {
       opacity: 1,
       y: 0,
-      scale: 1,
-      transition: {
-        duration: 0.8,
-        ease: [0.42, 0, 0.58, 1] as const,
-      },
-    },
-  };
-
-  const formVariants: Variants = {
-    hidden: { opacity: 0, y: 30, scale: 0.95 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: { duration: 0.8, ease: "easeOut" as const },
-    },
-  };
-
-  const contactInfoVariants: Variants = {
-    hidden: { opacity: 0, y: 30, scale: 0.95 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: { duration: 0.8, ease: "easeOut" },
-    },
-  };
-
-  const inputVariants: Variants = {
-    hidden: { opacity: 0, y: 20, scale: 0.95 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: { duration: 0.5, ease: "easeOut" as const },
-    },
-  };
-
-  const buttonVariants: Variants = {
-    hidden: { opacity: 0, scale: 0.8, y: 30 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      y: 0,
-      transition: { type: "spring", damping: 15, stiffness: 200, delay: 0.5 },
-    },
-  };
-  const infoItemVariants: Variants = {
-    hidden: { opacity: 0, y: 15 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.5, ease: ["easeOut"] as const },
-    },
-  };
-
-  const mapVariants: Variants = {
-    hidden: { opacity: 0, scale: 0.9, y: 50 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      y: 0,
-      transition: { duration: 0.8, ease: ["easeOut"], delay: 0.3 },
+      transition: { duration: 0.6, ease },
     },
   };
 
   return (
     <motion.section
       id="contact"
-      className="py-16 md:py-24 bg-[var(--cream)] rounded-3xl overflow-x-hidden"
+      className="py-24 md:py-32 px-6 md:px-12 lg:px-16 bg-[var(--bg-elevated)]"
       variants={containerVariants}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, amount: 0.2 }}
+      viewport={{ once: true, amount: 0.15 }}
     >
-      <motion.h2
-        className="font-script text-4xl md:text-5xl text-[var(--soft-brown)] mb-12 text-center"
-        variants={titleVariants}
-        whileHover={{
-          scale: 1.05,
-          color: "var(--primary-color, #8B4513)",
-          transition: { duration: 0.3 },
-        }}
-      >
-        Get in Touch
-      </motion.h2>
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <motion.div className="text-center mb-16" variants={itemVariants}>
+          <p className="text-[var(--accent)] tracking-[0.25em] uppercase text-xs font-medium mb-4">
+            Get in Touch
+          </p>
+          <h2 className="font-display text-4xl md:text-5xl lg:text-6xl">
+            Let&apos;s <span className="text-[var(--accent)]">connect</span>
+          </h2>
+        </motion.div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 px-6 md:px-8 lg:px-16 overflow-hidden">
-        {/* Contact Form */}
-        <div className="overflow-hidden rounded-xl">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          {/* Form */}
           <motion.form
-            className="bg-white rounded-xl shadow-md p-8 flex flex-col gap-6"
-            variants={formVariants}
-            whileHover={{
-              scale: 1.02,
-              boxShadow: "0px 20px 40px rgba(0,0,0,0.1)",
-              transition: { duration: 0.3 },
-            }}
+            className="card-bordered rounded-2xl p-8 md:p-10 flex flex-col gap-6"
+            variants={itemVariants}
           >
-            <motion.input
-              type="text"
-              placeholder="Your Name"
-              className="border border-[var(--beige)] rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]"
-              required
-              variants={inputVariants}
-              whileFocus={{
-                scale: 1.02,
-                borderColor: "var(--primary-color, #8B4513)",
-                transition: { duration: 0.2 },
-              }}
-              whileHover={{ scale: 1.01 }}
-            />
-            <motion.input
-              type="email"
-              placeholder="Your Email"
-              className="border border-[var(--beige)] rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]"
-              required
-              variants={inputVariants}
-              whileFocus={{
-                scale: 1.02,
-                borderColor: "var(--primary-color, #8B4513)",
-                transition: { duration: 0.2 },
-              }}
-              whileHover={{ scale: 1.01 }}
-            />
-            <motion.textarea
-              placeholder="Your Message"
-              rows={5}
-              className="border border-[var(--beige)] rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]"
-              required
-              variants={inputVariants}
-              whileFocus={{
-                scale: 1.02,
-                borderColor: "var(--primary-color, #8B4513)",
-                transition: { duration: 0.2 },
-              }}
-              whileHover={{ scale: 1.01 }}
-            />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div className="flex flex-col gap-2">
+                <label className="text-xs tracking-[0.15em] uppercase text-[var(--text-secondary)]">
+                  Name
+                </label>
+                <input
+                  type="text"
+                  placeholder="Your Name"
+                  className="bg-transparent border-b-2 border-[var(--border)] pb-3 text-sm text-[var(--text-primary)] placeholder:text-[var(--text-secondary)]/50 focus:outline-none focus:border-[var(--accent)] transition-colors duration-200"
+                  required
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <label className="text-xs tracking-[0.15em] uppercase text-[var(--text-secondary)]">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  placeholder="Your Email"
+                  className="bg-transparent border-b-2 border-[var(--border)] pb-3 text-sm text-[var(--text-primary)] placeholder:text-[var(--text-secondary)]/50 focus:outline-none focus:border-[var(--accent)] transition-colors duration-200"
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <label className="text-xs tracking-[0.15em] uppercase text-[var(--text-secondary)]">
+                Subject
+              </label>
+              <input
+                type="text"
+                placeholder="Subject"
+                className="bg-transparent border-b-2 border-[var(--border)] pb-3 text-sm text-[var(--text-primary)] placeholder:text-[var(--text-secondary)]/50 focus:outline-none focus:border-[var(--accent)] transition-colors duration-200"
+              />
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <label className="text-xs tracking-[0.15em] uppercase text-[var(--text-secondary)]">
+                Message
+              </label>
+              <textarea
+                placeholder="Your Message"
+                rows={4}
+                className="bg-transparent border-b-2 border-[var(--border)] pb-3 text-sm text-[var(--text-primary)] placeholder:text-[var(--text-secondary)]/50 focus:outline-none focus:border-[var(--accent)] transition-colors duration-200 resize-none"
+                required
+              />
+            </div>
+
             <motion.button
               type="submit"
-              className="bg-[var(--primary-color)] text-white font-bold py-3 px-6 rounded-lg hover:bg-[var(--soft-brown)] transition-colors duration-300 shadow-md"
-              variants={buttonVariants}
+              className="bg-[var(--accent)] text-white font-medium py-3.5 px-8 rounded-full text-sm tracking-wide w-fit"
               whileHover={{
-                scale: 1.05,
-                y: -3,
-                boxShadow: "0px 10px 20px rgba(139, 69, 19, 0.3)",
+                backgroundColor: "#a85a38",
+                scale: 1.03,
+                transition: { duration: 0.2, ease },
               }}
-              whileTap={{ scale: 0.95 }}
+              whileTap={{ scale: 0.97 }}
             >
               Send Message
             </motion.button>
           </motion.form>
+
+          {/* Info + Map */}
+          <motion.div className="flex flex-col gap-8" variants={itemVariants}>
+            <div className="card-bordered rounded-2xl p-8 space-y-6">
+              {[
+                {
+                  icon: <MapPin className="w-5 h-5 text-white" />,
+                  label: "Address",
+                  value: "123 Sweet Street, Dessertville",
+                },
+                {
+                  icon: <Phone className="w-5 h-5 text-white" />,
+                  label: "Phone",
+                  value: "(123) 456-7890",
+                },
+                {
+                  icon: <Mail className="w-5 h-5 text-white" />,
+                  label: "Email",
+                  value: "hello@sweetcrust.com",
+                },
+                {
+                  icon: <Clock className="w-5 h-5 text-white" />,
+                  label: "Hours",
+                  value: "Mon–Sat: 7 AM – 8 PM",
+                },
+              ].map((info, i) => (
+                <div key={i} className="flex items-start gap-4 group">
+                  <div className="mt-0.5 p-2.5 bg-[var(--accent)] rounded-full transition-transform duration-300 group-hover:scale-110">
+                    {info.icon}
+                  </div>
+                  <div className="mt-1">
+                    <p className="text-xs text-[var(--text-secondary)] uppercase tracking-[0.15em] mb-0.5">
+                      {info.label}
+                    </p>
+                    <p className="text-sm text-[var(--text-primary)] transition-colors duration-300 group-hover:text-[var(--accent)]">
+                      {info.value}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="rounded-2xl overflow-hidden flex-1 min-h-[200px] border border-[var(--border)]">
+              <iframe
+                title="Sweet Crust Location"
+                className="w-full h-full min-h-[200px] rounded-2xl"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151!2d144.9630576!3d-37.8141079!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzfCsDQ4JzUxLjAiUyAxNDTCsDU3JzQ3LjAiRQ!5e0!3m2!1sen!2sus!4v1633412142000!5m2!1sen!2sus"
+                loading="lazy"
+                allowFullScreen
+              />
+            </div>
+          </motion.div>
         </div>
-
-        {/* Contact Info */}
-        <motion.div
-          className="flex flex-col gap-6 text-lg text-[var(--text-secondary)] overflow-hidden"
-          variants={contactInfoVariants}
-        >
-          <motion.p
-            variants={infoItemVariants}
-            whileHover={{ color: "var(--primary-color, #8B4513)" }}
-          >
-            <strong>Address:</strong> 123 Sweet Street, Dessertville
-          </motion.p>
-          <motion.p
-            variants={infoItemVariants}
-            whileHover={{ color: "var(--primary-color, #8B4513)" }}
-          >
-            <strong>Phone:</strong> (123) 456-7890
-          </motion.p>
-          <motion.p
-            variants={infoItemVariants}
-            whileHover={{ color: "var(--primary-color, #8B4513)" }}
-          >
-            <strong>Email:</strong> hello@sweetcrust.com
-          </motion.p>
-
-          <motion.iframe
-            title="Sweet Crust Location"
-            className="rounded-xl shadow-md w-full h-64 md:h-80 max-w-full"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151!2d144.9630576!3d-37.8141079!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzfCsDQ4JzUxLjAiUyAxNDTCsDU3JzQ3LjAiRQ!5e0!3m2!1sen!2sus!4v1633412142000!5m2!1sen!2sus"
-            loading="lazy"
-            allowFullScreen
-            variants={mapVariants}
-          />
-        </motion.div>
       </div>
     </motion.section>
   );

@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "skills": {
+    "fonts": {
+      "source": "jacbk/persona",
+      "sourceType": "github",
+      "computedHash": "6528f2ff18f5ca7b30190f9fb1957f448f7a5f5134f4d65491eccb85ec752824"
+    },
+    "landing-page-design": {
+      "source": "inferen-sh/skills",
+      "sourceType": "github",
+      "computedHash": "63fb730c8eb97e5847100ab67c760d63b442b19f3d33968106ddddb0daaeaf22"
+    },
+    "ui-animation": {
+      "source": "mblode/agent-skills",
+      "sourceType": "github",
+      "computedHash": "2246d0232b13fcb9b0aea790e2a7716c6db83c547a9588a2114ef0566adacb35"
+    }
+  }
+}

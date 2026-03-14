@@ -1,9 +1,13 @@
 "use client";
+
 import Image from "next/image";
 import { motion, Variants } from "motion/react";
 
+const ease = [0.22, 1, 0.36, 1] as const;
+
 type MenuItem = {
   title: string;
+  price: string;
   description: string;
   image: string;
   alt: string;
@@ -12,34 +16,34 @@ type MenuItem = {
 const menuItems: MenuItem[] = [
   {
     title: "Delicate Pastries",
+    price: "$4.50",
     description:
-      "Flaky, buttery layers filled with rich cream or fruit – perfect for a light indulgence any time of the day.",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuAwSfLQO1a6kds_npA4LpRD5AlYYKmtTe6bJd6TrDD5w4EzkMb0Phgml2hD_rVr-Yad9sojZq5-pf-lkonuOuKKdgzt4dxPKAk5-06Bt2jBMqjq0x2ryzGILY-OIt_FQd4zvMF7Pgv7Vyi9tm0Nsg-S7VjAnkWni2cWgp2l5BrNRealCIAUBUbJlAq0ePa8Hbf6gCapXMIww4qzy3epF0RzVqiwQl80rg3Cpl_zcZ_IjLmFfd2OAup35hAE0IuscgbTjj-3rmu9D3g",
+      "Flaky, buttery layers filled with rich cream or seasonal fruit — perfect for any time of day.",
+    image: "/images/menu_pastry.png",
     alt: "Delicate Pastries",
   },
   {
     title: "Celebration Cakes",
+    price: "$45.00",
     description:
-      "Handcrafted, custom-designed cakes made with love to make birthdays, weddings, and milestones unforgettable.",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuDnusDRQX3ZY3sfJX-TOdXG6sHlO_Jgt3_xPaNo0z_HLW6FyAIkZhatWZ6BvkSeKaXV4u13-IlUZ59GKKtZJ9hOh_opNX94v24M5zVJgBrPG5Kp7RMSO2Ncp-86hjZuMhdRIfZml6qOUx4SiYyapCcUsubDzWxGEmJ2W7RBvKBs0CoVyOuHCEf8gIMNO3SGHjN-stpYmlR9Bfj_AtgqpDf1rTHiPoZuIxLl450OC8yKoWd6kStqQ5ZsxspX_UnIZjYzbgHB0oddfLo",
+      "Custom-designed cakes made with love for birthdays, weddings, and milestones.",
+    image: "/images/menu_cake.png",
     alt: "Celebration Cakes",
   },
   {
     title: "Artisan Breads",
+    price: "$8.00",
     description:
-      "Baked fresh every morning, our loaves boast a golden crust, airy crumb, and wholesome flavor that warms the soul.",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuDQtaYR4OffLe61QEauXXHbf2vLZL2h3kNj4w1FDe3XBU5vyMOTzUKz1eWufGg4i9E4GQlhtzqryFF1_YliL9Uq_4Dg4h597sKodemxRwsTcmhLcVxyi9lagOECuMrh1SEFm2QMWWBab1Y9U26MIgKDBPA3A-rmToO1L75v9c_qOY1PtzjwMgTC3Nzp9dCo_ImEy_JcWCWa2W9OycXJ2paG7f2TJY1vauRxWlqcbG2A35tYW-Jz2T8vokv-shCufT49zM1JBGawVeI",
+      "Baked fresh every morning — golden crust, airy crumb, and wholesome flavor.",
+    image: "/images/menu_bread.png",
     alt: "Artisan Breads",
   },
   {
     title: "Signature Cookies",
+    price: "$3.50",
     description:
-      "Soft in the center, crisp on the edges, and loaded with irresistible flavors that keep you coming back for more.",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuApM1PtMphJ_CqrI35Kycp2TkkL-XUrtCpm-Mz5l1BHyXaQ3SNdgoiiWEVlmZB2fzQwKLPuyLfJvtIPtjbRao8so45kboIboPQQgTk7v9udEN_KwQorZ9Slx0cumfX4vu_k3QLk2B9G8As0KbZLc5Na1IoaVQOV1ryLWcFobPmTrYJsHzTa5riRAWt0pAxXzgmylCg1tpXfIgVeA_SPMXDefLhBQjVT2sOCHXlkh8nNIJEIz-0-9WQGRlOvIWBEQuCLLluYqr37zXM",
+      "Soft center, crisp edges, loaded with irresistible flavors that keep you coming back.",
+    image: "/images/menu_cookie.png",
     alt: "Signature Cookies",
   },
 ];
@@ -49,140 +53,107 @@ export default function Menu() {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.3,
-      },
-    },
-  };
-
-  const titleVariants: Variants = {
-    hidden: {
-      opacity: 0,
-      y: -30,
-      scale: 0.9,
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        duration: 0.8,
-        ease: "easeOut",
-      },
+      transition: { staggerChildren: 0.1, delayChildren: 0.15 },
     },
   };
 
   const cardVariants: Variants = {
-    hidden: {
-      opacity: 0,
-      y: 60,
-      rotateX: -15,
-    },
+    hidden: { opacity: 0, y: 50 },
     visible: {
       opacity: 1,
       y: 0,
-      rotateX: 0,
-      transition: {
-        duration: 0.6,
-        ease: "easeOut",
-      },
+      transition: { duration: 0.6, ease },
     },
   };
 
-  const imageVariants: Variants = {
-    hidden: { scale: 1.2, opacity: 0 },
-    visible: {
-      scale: 1,
-      opacity: 1,
-      transition: {
-        duration: 0.5,
-        ease: "easeOut",
-      },
-    },
-  };
+  const featured = menuItems[0];
+  const rest = menuItems.slice(1);
 
   return (
     <motion.section
       id="menu"
-      className="py-16 md:py-24 bg-[var(--cream)] rounded-3xl"
+      className="py-24 md:py-32 px-6 md:px-12 lg:px-16 bg-[var(--bg-elevated)]"
       variants={containerVariants}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, amount: 0.2 }}
+      viewport={{ once: true, amount: 0.1 }}
     >
-      <motion.h2
-        className="font-script text-4xl md:text-5xl text-[var(--soft-brown)] mb-12 text-center"
-        variants={titleVariants}
-        whileHover={{
-          scale: 1.05,
-          color: "var(--primary-color, #8B4513)",
-          transition: { duration: 0.3 },
-        }}
-      >
-        Our Specialties
-      </motion.h2>
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <motion.div className="text-center mb-16" variants={cardVariants}>
+          <p className="text-[var(--accent)] tracking-[0.25em] uppercase text-xs font-medium mb-4">
+            Specialties
+          </p>
+          <h2 className="font-display text-4xl md:text-5xl lg:text-6xl">
+            Our <span className="text-[var(--accent)]">Creations</span>
+          </h2>
+        </motion.div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 px-8">
-        {menuItems.map((item, idx) => (
-          <motion.div
-            key={idx}
-            variants={cardVariants}
-            whileHover={{
-              y: -8,
-              scale: 1.02,
-              rotateY: 5,
-              transition: {
-                duration: 0.3,
-                ease: "easeOut",
-              },
-            }}
-            whileTap={{ scale: 0.98 }}
-            className="rounded-xl shadow-md p-6 hover:shadow-xl transition flex flex-col items-center text-center bg-amber-50 text-amber-900 border-amber-200 cursor-pointer"
-          >
+        {/* Featured item — full width */}
+        <motion.div
+          variants={cardVariants}
+          className="card-bordered rounded-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-2 mb-6 group cursor-pointer"
+        >
+          <div className="overflow-hidden aspect-[4/3] lg:aspect-auto">
+            <Image
+              src={featured.image}
+              alt={featured.alt}
+              width={800}
+              height={600}
+              className="object-cover w-full h-full transition-transform duration-700 ease-out group-hover:scale-105"
+            />
+          </div>
+          <div className="p-8 md:p-12 flex flex-col justify-center gap-4">
+            <span className="bg-[var(--accent)] text-white text-xs tracking-[0.1em] uppercase font-medium px-4 py-1.5 rounded-full w-fit">
+              {featured.price}
+            </span>
+            <h3 className="font-display text-3xl md:text-4xl text-[var(--text-primary)]">
+              {featured.title}
+            </h3>
+            <p className="text-[var(--text-secondary)] text-base leading-relaxed max-w-md">
+              {featured.description}
+            </p>
+          </div>
+        </motion.div>
+
+        {/* Rest — 3 column grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {rest.map((item, idx) => (
             <motion.div
-              className="overflow-hidden rounded-xl w-full h-48 mb-4"
-              whileHover={{ scale: 1.05 }}
-              transition={{ duration: 0.3 }}
+              key={idx}
+              variants={cardVariants}
+              whileHover={{
+                y: -6,
+                transition: { duration: 0.3, ease },
+              }}
+              className="group card-bordered rounded-2xl overflow-hidden cursor-pointer"
             >
-              <motion.div
-                variants={imageVariants}
-                whileHover={{ scale: 1.1 }}
-                transition={{ duration: 0.3 }}
-              >
+              {/* Image */}
+              <div className="overflow-hidden aspect-[4/3]">
                 <Image
                   src={item.image}
                   alt={item.alt}
-                  width={300}
-                  height={200}
-                  className="rounded-xl object-cover w-full h-48"
+                  width={400}
+                  height={300}
+                  className="object-cover w-full h-full transition-transform duration-500 ease-out group-hover:scale-110"
                 />
-              </motion.div>
+              </div>
+
+              {/* Content */}
+              <div className="p-6">
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="text-lg font-semibold">{item.title}</h3>
+                  <span className="bg-[var(--accent)]/10 text-[var(--accent)] text-sm font-medium px-3 py-0.5 rounded-full">
+                    {item.price}
+                  </span>
+                </div>
+                <p className="text-[var(--text-secondary)] text-sm leading-relaxed">
+                  {item.description}
+                </p>
+              </div>
             </motion.div>
-
-            <motion.h3
-              className="text-xl font-semibold mb-2"
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.5 }}
-              whileHover={{
-                color: "var(--primary-color, #8B4513)",
-                scale: 1.05,
-              }}
-            >
-              {item.title}
-            </motion.h3>
-
-            <motion.p
-              className="text-base text-[var(--text-secondary)]"
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.5 }}
-            >
-              {item.description}
-            </motion.p>
-          </motion.div>
-        ))}
+          ))}
+        </div>
       </div>
     </motion.section>
   );
