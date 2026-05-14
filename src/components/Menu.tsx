@@ -117,9 +117,9 @@ export default function Menu() {
     <section
       id="menu"
       ref={containerRef}
-      className="py-24 md:py-32 px-6 md:px-12 lg:px-16 bg-[var(--bg-elevated)]"
+      className="min-h-screen flex flex-col justify-center py-24 md:py-32 px-6 md:px-12 lg:px-16 bg-[var(--bg-elevated)]"
     >
-      <div className="max-w-7xl mx-auto">
+      <div className="w-full max-w-7xl mx-auto">
         {/* Header */}
         <motion.div 
           className="text-center mb-16" 

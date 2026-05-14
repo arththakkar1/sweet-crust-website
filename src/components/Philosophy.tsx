@@ -24,7 +24,7 @@ export default function Philosophy() {
     <section
       id="philosophy"
       ref={containerRef}
-      className="py-24 md:py-32 px-6 md:px-12 lg:px-16 bg-[var(--bg-elevated)] relative overflow-hidden"
+      className="min-h-screen flex flex-col justify-center py-24 md:py-32 px-6 md:px-12 lg:px-16 bg-[var(--bg-elevated)] relative overflow-hidden"
     >
       {/* Decorative terracotta strips */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-[var(--accent)]/20" />
@@ -38,7 +38,7 @@ export default function Philosophy() {
         48h
       </motion.div>
 
-      <div className="max-w-5xl mx-auto relative z-10">
+      <div className="w-full max-w-5xl mx-auto relative z-10">
         <div className="flex gap-8 md:gap-12">
           {/* Left accent line */}
           <div className="hidden md:flex flex-col items-center gap-4 pt-2">

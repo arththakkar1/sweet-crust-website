@@ -2,17 +2,26 @@
 
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "motion/react";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import { useLenis } from "lenis/react";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
 export default function Hero() {
+  const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLElement>(null);
-  
+  const lenis = useLenis();
+  const [activeLink, setActiveLink] = useState("home");
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"],
   });
+
+  const handleNavClick = (id: string) => {
+    setActiveLink(id);
+    setIsOpen(false);
+    if (lenis) lenis.scrollTo(`#${id}`, { offset: -80 });
+  };
 
   // Parallax values
   const textY = useTransform(scrollYProgress, [0, 1], [0, 100]);
@@ -23,7 +32,7 @@ export default function Hero() {
     <section
       id="home"
       ref={containerRef}
-      className="relative min-h-screen flex items-center overflow-hidden"
+      className="relative pt-14 h-screen w-full flex items-center overflow-hidden"
     >
       {/* Background */}
       <div className="absolute inset-0 bg-[var(--bg-elevated)]" />
@@ -74,9 +83,8 @@ export default function Hero() {
           </motion.p>
 
           {/* CTA */}
-          <motion.a
-            href="#menu"
-            className="mt-2 bg-[var(--accent)] text-white font-medium py-4 px-10 rounded-full text-sm tracking-wide inline-block w-fit"
+          <motion.button
+            className="mt-2 cursor-pointer bg-[var(--accent)] text-white font-medium py-4 px-10 rounded-full text-sm tracking-wide inline-block w-fit"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease, delay: 0.6 }}
@@ -87,14 +95,15 @@ export default function Hero() {
               transition: { duration: 0.2, ease },
             }}
             whileTap={{ scale: 0.97 }}
+            onClick={() => handleNavClick("menu")}
           >
             Explore Our Menu
-          </motion.a>
+          </motion.button>
         </motion.div>
 
         {/* Image side */}
         <motion.div
-          className="relative aspect-[4/5] lg:aspect-[3/4] rounded-3xl overflow-hidden"
+          className="relative h-[80vh] w-full p-2 rounded-3xl overflow-hidden"
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, ease, delay: 0.3 }}
@@ -105,31 +114,12 @@ export default function Hero() {
             alt="Fresh artisan bread"
             fill
             className="object-cover"
-            sizes="(max-width: 1024px) 100vw, 50vw"
+            sizes="(max-width: 1440px) 60vw, 40vw"
             priority
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
         </motion.div>
       </div>
-
-      {/* Scroll indicator */}
-      <motion.div
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.2, duration: 0.6 }}
-
-      >
-        <span className="text-[var(--text-secondary)] text-xs tracking-[0.2em] uppercase">
-          Scroll
-        </span>
-        <motion.div
-          className="w-px h-8 bg-[var(--accent)]/50"
-          animate={{ scaleY: [0, 1, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          style={{ transformOrigin: "top" }}
-        />
-      </motion.div>
     </section>
   );
 }
