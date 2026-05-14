@@ -103,7 +103,7 @@ export default function Hero() {
 
         {/* Image side */}
         <motion.div
-          className="relative h-[80vh] w-full p-2 rounded-3xl overflow-hidden"
+          className="relative aspect-[4/3] lg:aspect-[4/4]  p-2 rounded-3xl overflow-hidden"
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, ease, delay: 0.3 }}

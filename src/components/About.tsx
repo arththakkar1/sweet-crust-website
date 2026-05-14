@@ -36,7 +36,7 @@ export default function About() {
         {/* Image with offset shadow and parallax */}
         <motion.div className="relative" style={{ y: imgY }}>
           <div className="absolute -bottom-4 -right-4 w-full h-full rounded-2xl bg-[var(--accent)]/10 -z-10" />
-          <div className="relative overflow-hidden rounded-2xl  h-[80vh] w-full border border-[var(--border)]">
+          <div className="relative overflow-hidden rounded-2xl aspect-[4/3] lg:aspect-[4/4] border border-[var(--border)]">
             <Image
               src="/images/about_cinematic.png"
               alt="Slicing fresh rustic sourdough"
